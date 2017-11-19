@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+ 
+<head>
+  <title>Bootstrap Example</title>
+   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+ 
+  
+<div class="container">
+  
+  
+  <!-- <div>
+        <img th:src="@{/images/gif/loading.gif}"
+          src="../images/gif/loading.gif" class="img-responsive" alt="Responsive image"/>
+    </div>
+<img th:src='@{/images/gif/loading.gif}' />  -->
+
+  <div class="row">
+  	<div class="col-md-12">
+  		<div id="logoDiv"  class="col-md-6">
+  			<img th:src='@{/images/logo.png}' src="../images/logo.png" class="img-responsive" alt="Responsive image" /> 
+  		</div>
+  		<div id="logOutDiv" class="col-md-6" style="text-align: right;"><button type="button" name="logOut" id="logOut" >Logout</button></div>
+  	
+  	</div>
+  	<div class="col-md-12">
+  		<div class="col-md-3"> 
+  			<div><b>User Details</b></div>
+  			<div> <label id="userName-lb"></label></div>
+  			<div> <label id="userMobile-lb"></label></div>
+  			<div> <label id="userEmail-lb"></label></div>
+  			<div> <label id="userName-lb"></label></div>
+  			
+  		</div>
+  		<div class="col-md-9 panel panel-default">
+  			<div class="row">
+  				<div class="col-md-6">
+  					<div class="col-md-9">
+  						<input type="text" name="filter" id="filter" placeholder="Task Desc" class="form-control" />
+  					</div>
+  					<div class="col-md-3" style="text-align: right;">
+  						<button id="searchTask" class="btn btn-primary" name="searchTask" >Search</button>
+  					</div>
+  					
+  				</div>
+  				<div class="col-md-6" style="text-align: right;" >
+  					<button type="button" id="create-new" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Create New</button>
+  				</div>
+  			</div>
+  			<div class="row panel panel-primary">
+  				<div class="panel-heading">Task List</div>
+  				<div class="panel-body">
+  					<div id="ReportTableDiv"> <!--  style="display:none;"  -->
+						  
+						    <div id="collapseOne" class="panel-collapse collapse in" >
+						       		
+						       		<div id="loading-gif-div" style="display: none;">
+						       			<img th:src='@{/images/gif/loading.gif}' />
+						       		</div>	 
+								<div class="table-responsive col-md-12"  id="taskTable" style="dislay:none; max-height: 500px; overflow: scroll;">
+									<table width="100%" class="table table-striped table-bordered table-hover Task-List-table">
+										<thead>
+											<tr>
+												<!-- <th></th> -->
+												<th>Task Id</th>
+												<th>Task Desc</th> 
+												<th>Objective</th>
+												<th>Start Time</th> 
+												<th>End Time</th>  
+												<th>Delete<!-- /Update --></th>
+											</tr>
+										</thead>
+										<tbody class="Task-List-table-body">
+										
+										</tbody>
+									</table>
+								</div>  
+						   </div>
+						    
+						   </div> 
+  				</div>
+  			
+  			</div>
+  		</div>
+  	</div>
+  	 
+  	 
+     
+  </div>
+  
+  <!-- Modal -->
+  <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Create Task</h4>
+        </div>
+        <div class="modal-body">
+          <div class="col-md-12">
+          	<div class="col-md-3">
+          		 <div class="form-group">
+				    <label for="subject_new">Task Description </label>
+				    <input type="text" class="form-control"  required id="subject_new">
+				  </div>
+          	</div>
+          	<div class="col-md-3">
+          		 <div class="form-group">
+				    <label for="Objective_new">Objective</label>
+				    <input type="text" class="form-control" required id="Objective_new">
+				  </div>
+          	</div>
+          	
+          	<div class="col-md-3">
+          		 <div class="form-group">
+				    <label for="startTime">startTime</label>
+				    <input type="text" class="form-control" required id="startTime">
+				  </div>
+          	</div>
+          	
+          	<div class="col-md-3">
+          		 <div class="form-group">
+				    <label for="startDate">Start Date</label>
+				    <input type="text" class="form-control" required id="startDate">
+				  </div>
+          	</div>
+          	
+          	
+          	<div class="col-md-3">
+          		 <div class="form-group">
+				    <label for="EndTime">End Time</label>
+				    <input type="text" class="form-control" required id="EndTime">
+				  </div>
+          	</div>
+          	
+          	<div class="col-md-3">
+          		 <div class="form-group">
+				    <label for="EndDate">End Date</label>
+				    <input type="text" class="form-control"  required id="EndDate">
+				  </div>
+          	</div>
+          	
+          	<div class="col-md-3">
+          		 <button type="button" id="submit-id" class="btn btn-primary">Submit</button>
+          	</div>
+          	
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+  
+</div>
+
+</body>
+
+<script>
+	$(document).ready(function(){
+		
+		
+		$(document).on('click','#submit-id',function(){
+			
+			var desc=$("#subject_new").val();
+			var Objective_new=$("#Objective_new").val();
+			var startTime=$("#startTime").val();
+			var startDate=$("#startDate").val();
+			var EndTime=$("#EndTime").val();
+			var EndDate=$("#EndDate").val();
+			
+			var paramData={
+					 taskDesc:desc,
+					 objective:Objective_new,
+					startDate:startDate,
+					startTime:startTime,
+					endTime:EndTime,
+					endDate:EndDate
+			};
+			
+			console.log(paramData);
+			
+			var url= "http://localhost:8989/saveTasks";
+  			console.log(url)
+            $.ajax({
+                url: url,
+                type: "POST",
+                contentType: "application/json",
+                dataType: "json",
+                data: JSON.stringify(paramData),
+                beforeSend: function() {
+               	$("#loading-gif-div").show();                              
+                }
+            })
+            .done(function(data, textStatus, jqXHR){
+           	 
+           	 console.log(data);
+           	      
+           	if(data.length>0){
+           	 /* hideAlertMsg("alert-messages-1");   */                          	 
+                $('#taskTable').show();
+                $(".Task-List-table-body").empty();
+                $.each(data,function(index, item){                                   
+                    var row = $('<tr>');                                    
+                     row.append( $('<td>').append(item.id));
+                    row.append( $('<td>').append(item.subject)); 
+                    row.append( $('<td>').append(item.objective));
+                    row.append( $('<td>').append(item.startTime)); 
+                    row.append( $('<td>').append(item.endTime)); 
+                    var Buttons="<button id='delete_"+item.id+"' class='deleteButton btn btn-primary' >Delete</button>";
+
+                    /* <br> <button id='edit_"+item.id+"' class='editButton btn btn-primary' >Update</button>" */
+                    
+                    row.append( $('<td >').append(Buttons)); 
+                  
+                     
+                    $(".Task-List-table-body").append(row);
+                   
+                });
+            }
+           	else{
+                $('#taskTable').hide();
+           	}
+           	
+           	 
+            })
+            .fail(function(jqXHR, textStatus, errorThrown){                             
+                var errorResponseObj = jqXHR.responseJSON;
+                var errorMsg = errorResponseObj.errorMessage;                            
+            })
+            .always(function(data, textStatus, jqXHR){
+           	 $("#loading-gif-div").hide();
+            });
+			
+		});
+		
+		
+		//Default Table Load Start
+		
+			var url= "http://localhost:8989/getAllTasks";
+  			console.log(url)
+            $.ajax({
+                url: url,
+                type: "POST",
+                contentType: "application/json",
+                dataType: "json",
+                 
+                beforeSend: function() {
+               	$("#loading-gif-div").show();                              
+                }
+            })
+            .done(function(data, textStatus, jqXHR){
+           	 
+           	 console.log(data);
+           	      
+           	if(data.length>0){
+           	 /* hideAlertMsg("alert-messages-1");   */                          	 
+                $('#taskTable').show();
+                $(".Task-List-table-body").empty();
+                $.each(data,function(index, item){                                   
+                    var row = $('<tr>');                                    
+                     row.append( $('<td>').append(item.id));
+                    row.append( $('<td>').append(item.subject)); 
+                    row.append( $('<td>').append(item.objective));
+                    row.append( $('<td>').append(item.startTime)); 
+                    row.append( $('<td>').append(item.endTime)); 
+                    var Buttons="<button id='delete_"+item.id+"' class='deleteButton btn btn-primary' >Delete</button> <br> <button id='edit_"+item.id+"' class='editButton btn btn-primary' >Update</button>";
+
+                    
+                    row.append( $('<td >').append(Buttons)); 
+                  
+                     
+                    $(".Task-List-table-body").append(row);
+                   
+                });
+            }
+           	else{
+                $('#taskTable').hide();
+           	}
+           	
+           	 
+            })
+            .fail(function(jqXHR, textStatus, errorThrown){                             
+              	console.log("Failed .....");                           
+            })
+            .always(function(data, textStatus, jqXHR){
+           	 	$("#loading-gif-div").hide();
+            });
+		//Default Table Load End
+		
+		 
+		$("#searchTask").click(function(){
+			 
+			
+			var filter =$("#filter").val();
+			 
+			var param={
+					taskDesc:filter 
+			}
+			
+			console.log(param);
+			
+			
+			var url= "http://localhost:8989/getTask";
+  			console.log(url)
+            $.ajax({
+                url: url,
+                type: "POST",
+                contentType: "application/json",
+                dataType: "json",
+                data: JSON.stringify(param),
+                beforeSend: function() {
+               	$("#loading-gif-div").show();                              
+                }
+            })
+            .done(function(data, textStatus, jqXHR){
+           	 
+           	 console.log(data);
+           	      
+           	if(data.length>0){
+           	 /* hideAlertMsg("alert-messages-1");   */                          	 
+                $('#taskTable').show();
+                $(".Task-List-table-body").empty();
+                $.each(data,function(index, item){                                   
+                    var row = $('<tr>');                                    
+                     row.append( $('<td>').append(item.id));
+                    row.append( $('<td>').append(item.subject)); 
+                    row.append( $('<td>').append(item.objective));
+                    row.append( $('<td>').append(item.startTime)); 
+                    row.append( $('<td>').append(item.endTime)); 
+                    var Buttons="<button id='delete_"+item.id+"' class='deleteButton btn btn-primary' >Delete</button> <br> <button id='edit_"+item.id+"' class='editButton btn btn-primary' >Update</button>";
+
+                    
+                    row.append( $('<td >').append(Buttons)); 
+                  
+                     
+                    $(".Task-List-table-body").append(row);
+                   
+                });
+            }
+           	else{
+                $('#taskTable').hide();
+           	}
+           	
+           	 
+            })
+            .fail(function(jqXHR, textStatus, errorThrown){                             
+                var errorResponseObj = jqXHR.responseJSON;
+                var errorMsg = errorResponseObj.errorMessage;                            
+            })
+            .always(function(data, textStatus, jqXHR){
+           	 $("#loading-gif-div").hide();
+            });
+            
+            
+			
+		});
+		
+		$(document).on('click','.deleteButton',function(){
+			var idVal=$(this).attr('id');
+			var idValSplit=idVal.split('_');
+			
+			
+			var url= "http://localhost:8989/deleteById/"+idValSplit[1];
+			
+  			console.log(url)
+            $.ajax({
+                url: url,
+                type: "GET",
+                contentType: "application/json",
+                dataType: "json",
+                /* data: JSON.stringify(param), */
+                beforeSend: function() {
+               	$("#loading-gif-div").show();                              
+                }
+            })
+            .done(function(data, textStatus, jqXHR){
+           	  
+               	 
+              })
+              .fail(function(jqXHR, textStatus, errorThrown){                             
+                	console.log("Failed .....");                           
+              })
+              .always(function(data, textStatus, jqXHR){
+            	  var url1= "http://localhost:8989/getAllTasks";
+        			console.log(url1)
+                  $.ajax({
+                      url: url,
+                      type: "POST",
+                      contentType: "application/json",
+                      dataType: "json",
+                       
+                      beforeSend: function() {
+                     	$("#loading-gif-div").show();                              
+                      }
+                  })
+                  .done(function(data, textStatus, jqXHR){
+                 	 
+                 	 console.log(data);
+                 	if(data)
+                 	{
+                 		console.log("Data Exists");
+                 	}
+                 	else
+                 	{
+                 		console.log("no Data");	
+                 	}
+                 	if(data.length>0){
+                 	 /* hideAlertMsg("alert-messages-1");   */                          	 
+                      $('#taskTable').show();
+                      $(".Task-List-table-body").empty();
+                      $.each(data,function(index, item){                                   
+                          var row = $('<tr>');                                    
+                           row.append( $('<td>').append(item.id));
+                          row.append( $('<td>').append(item.subject)); 
+                          row.append( $('<td>').append(item.objective));
+                          row.append( $('<td>').append(item.startTime)); 
+                          row.append( $('<td>').append(item.endTime)); 
+                          var Buttons="<button id='delete_"+item.id+"' class='deleteButton btn btn-primary' >Delete</button> <br> <button id='edit_"+item.id+"' class='editButton btn btn-primary' >Update</button>";
+
+                          
+                          row.append( $('<td >').append(Buttons)); 
+                        
+                           
+                          $(".Task-List-table-body").append(row);
+                         
+                      });
+                  }
+                 	else{
+                      $('#taskTable').hide();
+                 	}
+             	 	$("#loading-gif-div").hide();
+              });
+           	      
+           	 
+           	
+           	 
+            })
+            .fail(function(jqXHR, textStatus, errorThrown){                             
+                 console.log("Deleting Failed ....")                           
+            })
+            .always(function(data, textStatus, jqXHR){
+           	 $("#loading-gif-div").hide();
+            });
+            
+		});
+	});
+</script>
+</html>

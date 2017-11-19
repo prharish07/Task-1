@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+ 
+<head>
+  <title>Bootstrap Example</title>
+   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<div>
+        <img th:src="@{/images/gif/loading.gif}"
+          src="../images/gif/loading.gif" class="img-responsive" alt="Responsive image"/>
+    </div>
+<img th:src='@{/images/gif/loading.gif}' /> 
+<div class="jumbotron text-center">
+  <h1>My First Bootstrap Page</h1>
+  <p>Resize this responsive page to see the effect!</p> 
+</div>
+  
+<div class="container">
+ 
+
+ 
+  <div class="row">
+  	<div class="col-sm-4">
+  		<h3>Welcome to Taskmanagement </h3>
+  	</div>
+  	<div class="col-sm-4">
+  	</div>
+    <div class="col-sm-4">
+	    <div id="login-signup">
+	    	<div id="formType-Div" class="row">
+		    	<input type="radio"  class="formType"  name="formType" id="login">Login &nbsp; 
+		    	<input type="radio" class="formType"  name="formType" id="singnUp">Sign Up
+		    </div>
+	    	<div id="login-Div">
+		      <form>
+				  <div class="form-group">
+				    <label for="loginId">Login Id :</label>
+				    <input type="text" class="form-control" id="loginId">
+				  </div>
+				  <div class="form-group">
+				    <label for="pwd">Password:</label>
+				    <input type="password" class="form-control" id="pwd">
+				  </div>
+				  <div id="loading-gif-div" style="display:none;">
+				  	<img th:src='@{/images/gif/loading.gif}' />
+				  </div>
+				  <button type="button" id="submit-id" class="btn btn-primary">Submit</button>
+				  <button type="reset" class="btn btn-primary">Reset</button>
+				  
+				</form>
+			</div>
+			
+			<div id="signUp-Div" style="display:none;">
+				 
+		      <form>
+				  <div class="form-group">
+				    <label for="email">Login Id :</label>
+				    <input type="text" class="form-control" id="email">
+				  </div>
+				  <div class="form-group">
+				    <label for="singnUpPwd">Password:</label>
+				    <input type="password" class="form-control" id="singnUpPwd">
+				  </div>
+				  <div class="form-group">
+				    <label for="rePwd">Re-Password:</label>
+				    <input type="password" class="form-control" id="rePwd">
+				  </div>
+				  <div id="signUp-loading-gif-div" style="display:none;">
+				  	<img th:src='@{/images/gif/loading.gif}' />
+				  </div>
+				  <button type="button" id="submit-signUp-id" class="btn btn-primary">Submit</button>
+				  <button type="reset" class="btn btn-primary">Reset</button>
+				  
+				</form>
+			</div>
+		</div>
+    </div>
+  </div>
+</div>
+
+</body>
+
+<script>
+	$(document).ready(function(){
+		
+		$(".formType").click(function(){
+			var formType=$(this).attr('id');
+			if(formType === "login" )
+			{
+				$("#login-Div").show();
+				$("#signUp-Div").hide();
+			}
+			else if(formType === "singnUp")
+			{
+				$("#signUp-Div").show();
+				$("#login-Div").hide();
+			}
+		});
+		$("#submit-id").click(function(){
+			
+			var loginId=$("#loginId").val();
+			var pwd=$("#pwd").val();
+			
+			var param={
+					loginId:loginId,
+					password:pwd
+			}
+			console.log(param);
+			
+			
+			var url= "${pageContext.request.contextPath}/iHelixApp/getallHospitalsAndClinicals";
+  			console.log(url)
+            $.ajax({
+                url: url,
+                type: "POST",
+                contentType: "application/json",
+                dataType: "json",
+                data: JSON.stringify(param),
+                beforeSend: function() {
+               	$("#loading-gif-div").show();                              
+                }
+            })
+            .done(function(data, textStatus, jqXHR){
+           	 
+           	 //console.log(data);
+           	    
+            })
+            .fail(function(jqXHR, textStatus, errorThrown){                             
+                var errorResponseObj = jqXHR.responseJSON;
+                var errorMsg = errorResponseObj.errorMessage;                            
+            })
+            .always(function(data, textStatus, jqXHR){
+           	 //$("#loading-gif-div").html('');
+            });
+            
+            
+			
+		});
+	});
+</script>
+</html>
